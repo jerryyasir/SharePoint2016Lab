@@ -4,11 +4,10 @@ This template creates three new Azure VMs, each with a public IP address and loa
 
 Click the button below to deploy
 
-<a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fgithub.com%2Fjerryyasir%2FSharePoint2016Lab%2Fblob%2Fmaster%2FSharePoint2016AzureLab%2FSharePoint2016AzureLab%2FTemplates%2Fazuredeploy.json" target="_blank">
+<a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fjerryyasir%2FSharePoint2016Lab%2Fmaster%2FSharePoint2016AzureLab%2FSharePoint2016AzureLab%2FTemplates%2Fazuredeploy.json" target="_blank">
     <img src="http://azuredeploy.net/deploybutton.png"/>
 </a>
 
 Notes: Sharepoint farm name must not contain spaces.
 
-https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fgithub.com%2Fjerryyasir%2FSharePoint2016Lab%2Fblob%2Fmaster%2FSharePoint2016AzureLab%2FSharePoint2016AzureLab%2FTemplates%2Fazuredeploy.json
-https://github.com/jerryyasir/SharePoint2016Lab/blob/master/SharePoint2016AzureLab/SharePoint2016AzureLab/Templates/azuredeploy.json
+<a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FAzure%2Fazure-quickstart-templates%2Fmaster%2Fsharepoint-three-vm%2Fazuredeploy.json" target="_blank">
