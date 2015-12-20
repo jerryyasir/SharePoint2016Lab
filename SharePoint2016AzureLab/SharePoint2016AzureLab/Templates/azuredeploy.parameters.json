@@ -1,6 +1,6 @@
 {
   "location": {
-    "value": "West US"
+    "value": "East US"
   },
   "storageAccountType": {
     "value": "Premium_LRS"
@@ -9,37 +9,37 @@
     "value": "new"
   },
   "adminUsername": {
-    "value": "admin123"
+    "value": "LucAdmin"
   },
   "adminPassword": {
-    "value": "#####"
+    "value": "P#@ssw0rd123"
   },
   "sqlServerServiceAccountUserName": {
-    "value": "admin123sql"
+    "value": "sqladmin"
   },
   "sqlServerServiceAccountPassword": {
-    "value": "#####"
+    "value": "P#@ssw0rd123"
   },
   "sharePointSetupUserAccountUserName": {
-    "value": "admin123sp"
+    "value": "SPAdmin"
   },
   "sharePointSetupUserAccountPassword": {
-    "value": "#####"
+    "value": "P#@ssw0rd123"
   },
   "sharePointFarmAccountPassword": {
-    "value": "#####"
+    "value": "P#@ssw0rd123"
   },
   "sharePointFarmPassphrasePassword": {
-    "value": "#####"
+    "value": "P#@ssw0rd123"
   },
   "sppublicIPAddressName": {
     "value": "sppublicIP"
   },
   "spDNSPrefix": {
-    "value": "#####"
+    "value": "splabdns"
   },
   "storageAccountName": {
-    "value": "#####"
+    "value": "spstjerry"
   },
   "adVMSize": {
     "value": "Standard_D1"
@@ -48,6 +48,6 @@
     "value": "Standard_D3"
   },
   "spVMSize": {
-    "value": "Standard_D3"
+    "value": "Standard_D2"
   }
 }

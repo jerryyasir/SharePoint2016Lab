@@ -286,7 +286,7 @@
     "adVMName": "[concat(parameters('sharepointFarmName'),'-ad')]",
     "sqlVMName": "[concat(parameters('sharepointFarmName'),'-sql')]",
     "spVMName": "[concat(parameters('sharepointFarmName'),'-sp')]",
-    "AssetLocation": "https://raw.githubusercontent.com/Azure/azure-quickstart-templates/master/sharepoint-three-vm/dsc",
+    "AssetLocation": "https://github.com/jerryyasir/SharePoint2016Lab/tree/master/SharePoint2016AzureLab/SharePoint2016AzureLab/Templates/dsc",
     "LBFE": "LBFE",
     "LBBE": "LBBE",
     "RDPNAT": "RDP",
@@ -373,6 +373,7 @@
     "ProvisioningSQLUrl": "[concat(parameters('baseUrl'),'/provisioningSQL.json')]"
   },
   "resources": [
+    //Storage Account
     {
       "name": "SettingUpStorageAccount",
       "type": "Microsoft.Resources/deployments",
@@ -399,6 +400,7 @@
         }
       }
     },
+    //"SettingUpPublicIPs",
     {
       "name": "SettingUpPublicIPs",
       "type": "Microsoft.Resources/deployments",
@@ -425,6 +427,7 @@
         }
       }
     },
+    //CreatingAvailabilitySets
     {
       "name": "CreatingAvailabilitySets",
       "type": "Microsoft.Resources/deployments",
@@ -451,6 +454,7 @@
         }
       }
     },
+    //"SettingUpVirtualNetwork",
     {
       "name": "SettingUpVirtualNetwork",
       "type": "Microsoft.Resources/deployments",
@@ -477,6 +481,7 @@
         }
       }
     },
+    //"SettingUpSharepointIP",
     {
       "name": "SettingUpSharepointIP",
       "type": "Microsoft.Resources/deployments",
@@ -506,6 +511,7 @@
         }
       }
     },
+    //"SettingUpLoadBalancers",
     {
       "name": "SettingUpLoadBalancers",
       "type": "Microsoft.Resources/deployments",
@@ -560,6 +566,7 @@
         }
       }
     },
+    //"CreatingNetworkInterfaces",
     {
       "name": "CreatingNetworkInterfaces",
       "type": "Microsoft.Resources/deployments",
@@ -630,6 +637,7 @@
         }
       }
     },
+    //"ProvisioningADDomainController",
     {
       "name": "ProvisioningADDomainController",
       "type": "Microsoft.Resources/deployments",
@@ -686,6 +694,7 @@
         }
       }
     },
+    //"UpdatingDNStoPrimaryADVM",
     {
       "name": "UpdatingDNStoPrimaryADVM",
       "type": "Microsoft.Resources/deployments",
@@ -720,6 +729,7 @@
         }
       }
     },
+    //"ProvisioningSQLServer",
     {
       "name": "ProvisioningSQLServer",
       "type": "Microsoft.Resources/deployments",
@@ -788,6 +798,7 @@
         }
       }
     },
+    //"ProvisioningSharepointFarm",
     {
       "name": "ProvisioningSharepointFarm",
       "type": "Microsoft.Resources/deployments",
