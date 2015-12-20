@@ -49,5 +49,8 @@
   },
   "spVMSize": {
     "value": "Standard_D2"
+  },
+  "domainName": {
+    "value": "lucerne.local"
   }
 }

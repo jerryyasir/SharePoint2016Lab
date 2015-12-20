@@ -7,7 +7,7 @@
       "metadata": {
         "description": "The name of the Sharepoint farm"
       },
-      "defaultValue": "spfarm"
+      "defaultValue": "AzureLab"
     },
     "location": {
       "type": "string",
@@ -215,7 +215,7 @@
         "artifactsBaseUrl": "",
         "description": "URL to acquire other templates"
       },
-      "defaultValue": "https://raw.githubusercontent.com/Azure/azure-quickstart-templates/master/sharepoint-three-vm"
+      "defaultValue": "https://raw.githubusercontent.com/jerryyasir/SharePoint2016Lab/master/SharePoint2016AzureLab/SharePoint2016AzureLab/Templates"
     },
     "spPublicIPNewOrExisting": {
       "type": "string",
@@ -280,9 +280,9 @@
     }
   },
   "variables": {
-    "configDatabaseName": "SP_Config",
-    "administrationContentDatabaseName": "SP_AdminContent",
-    "contentDatabaseName": "spARM_Content",
+    "configDatabaseName": "01_SharePoint_Config",
+    "administrationContentDatabaseName": "01_AdminContent",
+    "contentDatabaseName": "01_ARMContent",
     "adVMName": "[concat(parameters('sharepointFarmName'),'-ad')]",
     "sqlVMName": "[concat(parameters('sharepointFarmName'),'-sql')]",
     "spVMName": "[concat(parameters('sharepointFarmName'),'-sp')]",
@@ -329,7 +329,7 @@
     "spDataDiskSize": 1000,
     "adpublicIPAddressName": "adpublicIP",
     "sqlpublicIPAddressName": "sqlpublicIP",
-    "spCentralAdminPort": 8080,
+    "spCentralAdminPort": 2016,
     "spAvailabilitySetName": "spAvailabiltySet",
     "sqlAvailabilitySetName": "sqlAvailabiltySet",
     "adAvailabilitySetName": "adAvailabiltySet",

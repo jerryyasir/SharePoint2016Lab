@@ -25,7 +25,6 @@
   <Import Condition=" Exists('$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Deployment\1.1\DeploymentProject.targets') " Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Deployment\1.1\DeploymentProject.targets" />
   <!-- vertag<:>end -->
   <ItemGroup>
-    <Folder Include="Scripts\" />
     <Folder Include="Tools\" />
   </ItemGroup>
   <ItemGroup>
@@ -222,6 +221,7 @@
     <None Include="Templates\publicip-existing.json" />
     <None Include="Templates\publicip-new.json" />
     <None Include="Templates\Readme.md" />
+    <None Include="Templates\Script.ps1" />
     <None Include="Templates\storageAccount-existing.json" />
     <None Include="Templates\storageAccount-new.json" />
     <None Include="Templates\vnet-new.json" />
