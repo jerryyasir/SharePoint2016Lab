@@ -139,55 +139,6 @@
           }
         }
       }
-    },
-    {
-      "type": "Microsoft.Compute/virtualMachines/extensions",
-      "name": "[concat(parameters('spVMName'),'/ConfigureSPServer')]",
-      "apiVersion": "2015-06-15",
-      "dependsOn": [
-        "[concat('Microsoft.Compute/virtualMachines/', parameters('spVMName'))]"
-      ],
-      "location": "[parameters('location')]",
-      "properties": {
-        "publisher": "Microsoft.Powershell",
-        "type": "DSC",
-        "typeHandlerVersion": "2.6",
-        "settings": {
-          "ModulesUrl": "[parameters('spModulesURL')]",
-          "ConfigurationFunction": "[parameters('spConfigurationFunction')]",
-          "Properties": {
-            "DomainName": "[parameters('domainName')]",
-            "AdminCreds": {
-              "UserName": "[parameters('adminUserName')]",
-              "Password": "PrivateSettingsRef:AdminPassword"
-            },
-            "SharePointSetupUserAccountcreds": {
-              "UserName": "[parameters('sharePointSetupUserAccountUserName')]",
-              "Password": "PrivateSettingsRef:SharePointSetupUserAccountPassword"
-            },
-            "SharePointFarmAccountcreds": {
-              "UserName": "[parameters('sharePointFarmAccountUserName')]",
-              "Password": "PrivateSettingsRef:SharePointFarmAccountPassword"
-            },
-            "SharePointFarmPassphrasecreds": {
-              "UserName": "ignore",
-              "Password": "PrivateSettingsRef:SharePointFarmPassphrasePassword"
-            },
-            "DatabaseName": "[parameters('configDatabaseName')]",
-            "AdministrationContentDatabaseName": "[parameters('administrationContentDatabaseName')]",
-            "DatabaseServer": "[concat(parameters('sqlVMName'),'.',parameters('domainName'))]",
-            "Configuration": "[concat('{\"roles\":[{\"type\":\"application\",\"properties\":{\"fqdn\":\"',parameters('fqdn'),'\",\"port\":8080}},{\"type\":\"web\",\"properties\":{\"webApp\":{\"name\":\"',parameters('sharepointFarmName'),'\",\"applicationPool\":\"',parameters('sharepointFarmName'),' AppPool\",\"applicationPoolAccount\":\"', parameters('sharePointFarmAccountUserName'),'\",\"url\":\"http://',parameters('fqdn'),'\",\"port\":80,\"hostHeader\":\"',parameters('fqdn'),'\",\"databaseName\":\"',parameters('contentDatabaseName'),'\"},\"site\":{\"name\":\"',parameters('sharepointFarmName'),'\",\"template\":\"',parameters('spSiteTemplateName'),'\",\"url\":\"http://',parameters('fqdn'),'\",\"ownerAliasDomain\":\"',parameters('domainName'),'\",\"ownerAliasUserName\":\"',parameters('sharePointFarmAccountUserName'),'\",\"secondaryOwnerAliasDomain\":\"',parameters('domainName'),'\",\"secondaryOwnerAliasUserName\":\"',parameters('adminUserName'),'\"}}}],\"configureForHa\":\"False\",\"loadBalancedSetProbePort\":0}')]"
-          }
-        },
-        "protectedSettings": {
-          "Items": {
-            "AdminPassword": "[parameters('adminPassword')]",
-            "SharePointSetupUserAccountPassword": "[parameters('sharePointSetupUserAccountPassword')]",
-            "SharePointFarmAccountPassword": "[parameters('sharePointFarmAccountPassword')]",
-            "SharePointFarmPassphrasePassword": "[parameters('sharePointFarmPassphrasePassword')]"
-          }
-        }
-      }
     }
   ]
 }
