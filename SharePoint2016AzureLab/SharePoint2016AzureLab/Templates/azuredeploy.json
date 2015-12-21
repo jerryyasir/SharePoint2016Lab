@@ -277,6 +277,20 @@
       "metadata": {
         "description": "Resource Group containing existing storage account"
       }
+    },
+    "numberOfSharePointAppServers": {
+      "type": "int",
+      "defaultValue": "3",
+      "metadata": {
+        "description": "Number of SharePoint Application Servers (3 for Min Role)"
+      }
+    },
+    "numberOfSharePointWebServers": {
+      "type": "int",
+      "defaultValue": "2",
+      "metadata": {
+        "description": "Number of SharePoint Application Servers (2 for Load Balanced)"
+      }
     }
   },
   "variables": {

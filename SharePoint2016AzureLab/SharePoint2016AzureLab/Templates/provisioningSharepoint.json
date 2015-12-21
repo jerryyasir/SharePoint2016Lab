@@ -83,7 +83,7 @@
       "location": "[parameters('location')]",
       "copy": {
         "name": "spvirtualMachineLoop",
-        "count": 6
+        "count": 1
       },
       "properties": {
         "hardwareProfile": {
@@ -93,7 +93,7 @@
           "id": "[resourceId('Microsoft.Compute/availabilitySets', parameters('spAvailabilitySetName'))]"
         },
         "osProfile": {
-          "computerName": "[parameters('spVMName')]",
+          "computerName": "[concat(parameters('spVMName'), copyindex())]",
           "adminUsername": "[parameters('adminUsername')]",
           "adminPassword": "[parameters('adminPassword')]"
         },
@@ -107,7 +107,7 @@
           "osDisk": {
             "name": "osdisk",
             "vhd": {
-              "uri": "[concat('http://',parameters('storageAccountName'),'.blob.core.windows.net/vhds/',parameters('spVMName'),'-osdisk.vhd')]"
+              "uri": "[concat('http://',parameters('storageAccountName'),'.blob.core.windows.net/vhds/',parameters('spVMName'),copyindex(),'-osdisk.vhd')]"
             },
             "caching": "ReadWrite",
             "createOption": "FromImage"
@@ -115,9 +115,9 @@
           "dataDisks": [
             {
               "vhd": {
-                "uri": "[concat('http://',parameters('storageAccountName'),'.blob.core.windows.net/vhds/',parameters('spVMName'),'-', parameters('spDataDisk'),'-1.vhd')]"
+                "uri": "[concat('http://',parameters('storageAccountName'),'.blob.core.windows.net/vhds/',parameters('spVMName'),'-', parameters('spDataDisk'),copyindex(),'-1.vhd')]"
               },
-              "name": "[concat(parameters('spVMName'),'-data-disk1')]",
+              "name": "[concat(parameters('spVMName'),copyindex(),'-data-disk1')]",
               "createOption": "empty",
               "caching": "None",
               "diskSizeGB": 1000,
@@ -128,7 +128,7 @@
         "networkProfile": {
           "networkInterfaces": [
             {
-              "id": "[resourceId('Microsoft.Network/networkInterfaces',parameters('spNicName'))]"
+              "id": "[resourceId('Microsoft.Network/networkInterfaces',concat(parameters('spNicName'), copyindex(),'-nic'))]"
             }
           ]
         },
