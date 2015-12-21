@@ -3,7 +3,7 @@
     "value": "East US"
   },
   "storageAccountType": {
-    "value": "Premium_LRS"
+    "value": "Standard_LRS"
   },
   "storageAccountNewOrExisting": {
     "value": "new"
@@ -39,7 +39,7 @@
     "value": "splabdns"
   },
   "storageAccountName": {
-    "value": "spstjerry"
+    "value": "spfarmazurelab2016"
   },
   "adVMSize": {
     "value": "Standard_D1"

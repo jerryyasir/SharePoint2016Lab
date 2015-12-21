@@ -8,6 +8,8 @@ Click the button below to deploy
     <img src="http://azuredeploy.net/deploybutton.png"/>
 </a>
 
+https://raw.githubusercontent.com/jerryyasir/SharePoint2016Lab/master/SharePoint2016AzureLab/SharePoint2016AzureLab/Templates/azuredeploy.json
+
 Notes: Sharepoint farm name must not contain spaces.
 
 <a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FAzure%2Fazure-quickstart-templates%2Fmaster%2Fsharepoint-three-vm%2Fazuredeploy.json" target="_blank">

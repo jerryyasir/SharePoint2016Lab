@@ -79,8 +79,12 @@
     {
       "apiVersion": "2015-06-15",
       "type": "Microsoft.Compute/virtualMachines",
-      "name": "[parameters('spVMName')]",
+      "name": "[concat(parameters('spVMName'), copyindex())]",
       "location": "[parameters('location')]",
+      "copy": {
+        "name": "spvirtualMachineLoop",
+        "count": 6
+      },
       "properties": {
         "hardwareProfile": {
           "vmSize": "[parameters('spVMSize')]"
@@ -95,9 +99,9 @@
         },
         "storageProfile": {
           "imageReference": {
-            "publisher": "MicrosoftSharePoint",
-            "offer": "MicrosoftSharePointServer",
-            "sku": "2013",
+            "publisher": "MicrosoftWindowsServer",
+            "offer": "WindowsServer",
+            "sku": "2012-R2-Datacenter",
             "version": "latest"
           },
           "osDisk": {
