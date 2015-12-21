@@ -280,14 +280,14 @@
     },
     "numberOfSharePointAppServers": {
       "type": "int",
-      "defaultValue": "3",
+      "defaultValue": 3,
       "metadata": {
         "description": "Number of SharePoint Application Servers (3 for Min Role)"
       }
     },
     "numberOfSharePointWebServers": {
       "type": "int",
-      "defaultValue": "2",
+      "defaultValue": 2,
       "metadata": {
         "description": "Number of SharePoint Application Servers (2 for Load Balanced)"
       }
@@ -300,7 +300,7 @@
     "adVMName": "[concat(parameters('sharepointFarmName'),'-ad')]",
     "sqlVMName": "[concat(parameters('sharepointFarmName'),'-sql')]",
     "spVMName": "[concat(parameters('sharepointFarmName'),'-sp')]",
-    "AssetLocation": "https://github.com/jerryyasir/SharePoint2016Lab/tree/master/SharePoint2016AzureLab/SharePoint2016AzureLab/Templates/dsc",
+    "AssetLocation": "https://github.com/jerryyasir/SharePoint2016Lab/blob/master/SharePoint2016AzureLab/SharePoint2016AzureLab/Templates/DSC",
     "LBFE": "LBFE",
     "LBBE": "LBBE",
     "RDPNAT": "RDP",
