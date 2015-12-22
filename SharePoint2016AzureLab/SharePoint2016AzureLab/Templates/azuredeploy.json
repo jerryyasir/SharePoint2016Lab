@@ -215,7 +215,7 @@
         "artifactsBaseUrl": "",
         "description": "URL to acquire other templates"
       },
-      "defaultValue": "https://raw.githubusercontent.com/Azure/azure-quickstart-templates/master/sharepoint-three-vm"
+      "defaultValue": "https://dscassets.blob.core.windows.net/sharepoint2016azurelab/"
     },
     "AssetLocation": {
       "type": "string",
@@ -223,7 +223,7 @@
         "artifactsBaseUrl": "",
         "description": "URL to acquire DSC"
       },
-      "defaultValue": "https://raw.githubusercontent.com/Azure/azure-quickstart-templates/master/sharepoint-three-vm/dsc"
+      "defaultValue": "https://dscassets.blob.core.windows.net/sharepoint2016azurelab/"
     },
     "spPublicIPNewOrExisting": {
       "type": "string",
@@ -286,9 +286,9 @@
         "description": "Resource Group containing existing storage account"
       }
     },
-    "numberOfSharePointAppServers": {
+    "RoleVMCount": {
       "type": "int",
-      "defaultValue": 3,
+      "defaultValue": 1,
       "metadata": {
         "description": "Number of SharePoint Application Servers (3 for Min Role)"
       }
@@ -341,13 +341,13 @@
     "sqlBEAddressPoolID": "[concat(variables('sqllbID'),'/backendAddressPools/',variables('LBBE'))]",
     "spIPConfigID": "[concat(variables('spNicId'),'/ipConfigurations/ipconfig1')]",
     "adDataDisk": "ADDataDisk",
-    "adDataDiskSize": 1000,
+    "adDataDiskSize": 100,
     "sqlDataDisk": "SQLDataDisk",
-    "sqlDataDiskSize": 1000,
+    "sqlDataDiskSize": 500,
     "sqlLogDisk": "SQLLogDisk",
-    "sqlLogDiskSize": 1000,
+    "sqlLogDiskSize": 500,
     "spDataDisk": "SPDataDisk",
-    "spDataDiskSize": 1000,
+    "spDataDiskSize": 500,
     "adpublicIPAddressName": "adpublicIP",
     "sqlpublicIPAddressName": "sqlpublicIP",
     "spCentralAdminPort": 2016,
@@ -837,76 +837,39 @@
           "spVMName": {
             "value": "[variables('spVMName')]"
           },
-          "location": {
-            "value": "[parameters('location')]"
+          "RoleVMCount": {
+            "value": "[parameters('RoleVMCount')]"
+
           },
-          "spModulesURL": {
-            "value": "[variables('spModulesURL')]"
-          },
-          "spConfigurationFunction": {
-            "value": "[variables('spConfigurationFunction')]"
-          },
-          "domainName": {
-            "value": "[parameters('domainName')]"
-          },
-          "adminUserName": {
-            "value": "[parameters('adminUserName')]"
-          },
-          "sharePointSetupUserAccountUserName": {
-            "value": "[parameters('sharePointSetupUserAccountUserName')]"
-          },
-          "sharePointFarmAccountUserName": {
-            "value": "[parameters('sharePointFarmAccountUserName')]"
-          },
-          "configDatabaseName": {
-            "value": "[variables('configDatabaseName')]"
-          },
-          "administrationContentDatabaseName": {
-            "value": "[variables('administrationContentDatabaseName')]"
-          },
-          "sqlVMName": {
-            "value": "[variables('sqlVMName')]"
-          },
-          "fqdn": {
-            "value": "[reference('SettingUpSharepointIP').outputs.fqdn.value]"
-          },
-          "contentDatabaseName": {
-            "value": "[variables('contentDatabaseName')]"
-          },
-          "spSiteTemplateName": {
-            "value": "[parameters('spSiteTemplateName')]"
-          },
-          "adminPassword": {
-            "value": "[parameters('adminPassword')]"
-          },
-          "sharePointSetupUserAccountPassword": {
-            "value": "[parameters('sharePointSetupUserAccountPassword')]"
-          },
-          "sharePointFarmAccountPassword": {
-            "value": "[parameters('sharePointFarmAccountPassword')]"
-          },
-          "sharePointFarmPassphrasePassword": {
-            "value": "[parameters('sharePointFarmPassphrasePassword')]"
-          },
-          "spVMSize": {
-            "value": "[parameters('spVMSize')]"
-          },
-          "spAvailabilitySetName": {
-            "value": "[variables('spAvailabilitySetName')]"
-          },
-          "spNicName": {
-            "value": "[variables('spNicName')]"
-          },
-          "spDataDisk": {
-            "value": "[variables('spDataDisk')]"
-          },
-          "storageAccountName": {
-            "value": "[parameters('storageAccountName')]"
-          },
-          "sharepointFarmName": {
-            "value": "[parameters('sharepointFarmName')]"
+            "location": {
+              "value": "[parameters('location')]"
+            },
+            "spVMSize": {
+              "value": "[parameters('spVMSize')]"
+            },
+            "spAvailabilitySetName": {
+              "value": "[variables('spAvailabilitySetName')]"
+            },
+            "spNicName": {
+              "value": "[variables('spNicName')]"
+            },
+            "spDataDisk": {
+              "value": "[variables('spDataDisk')]"
+            },
+            "storageAccountName": {
+              "value": "[parameters('storageAccountName')]"
+            },
+            "adminUsername": {
+              "value": "[parameters('adminUsername')]"
+            },
+            "adminPassword": {
+              "value": "[parameters('adminPassword')]"
+            },
+            "domainName": {
+              "value": "[parameters('domainName')]"
+            }
+
           }
-        }
       }
     }
   ],

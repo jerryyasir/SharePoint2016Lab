@@ -8,54 +8,6 @@
     "location": {
       "type": "string"
     },
-    "spModulesURL": {
-      "type": "string"
-    },
-    "spConfigurationFunction": {
-      "type": "string"
-    },
-    "domainName": {
-      "type": "string"
-    },
-    "adminUserName": {
-      "type": "string"
-    },
-    "sharePointSetupUserAccountUserName": {
-      "type": "string"
-    },
-    "sharePointFarmAccountUserName": {
-      "type": "string"
-    },
-    "configDatabaseName": {
-      "type": "string"
-    },
-    "administrationContentDatabaseName": {
-      "type": "string"
-    },
-    "sqlVMName": {
-      "type": "string"
-    },
-    "fqdn": {
-      "type": "string"
-    },
-    "contentDatabaseName": {
-      "type": "string"
-    },
-    "spSiteTemplateName": {
-      "type": "string"
-    },
-    "adminPassword": {
-      "type": "securestring"
-    },
-    "sharePointSetupUserAccountPassword": {
-      "type": "securestring"
-    },
-    "sharePointFarmAccountPassword": {
-      "type": "securestring"
-    },
-    "sharePointFarmPassphrasePassword": {
-      "type": "securestring"
-    },
     "spVMSize": {
       "type": "string"
     },
@@ -71,8 +23,17 @@
     "storageAccountName": {
       "type": "string"
     },
-    "sharepointFarmName": {
+    "adminUsername": {
       "type": "string"
+    },
+    "adminPassword": {
+      "type": "string"
+    },
+    "domainName": {
+      "type": "string"
+    },
+    "RoleVMCount": {
+      "type": "int"
     }
   },
   "resources": [
@@ -83,7 +44,7 @@
       "location": "[parameters('location')]",
       "copy": {
         "name": "spvirtualMachineLoop",
-        "count": 1
+        "count": "[parameters('RoleVMCount')]"
       },
       "properties": {
         "hardwareProfile": {
@@ -136,6 +97,35 @@
           "bootDiagnostics": {
             "enabled": "true",
             "storageUri": "[concat('http://',parameters('storageAccountName'),'diag.blob.core.windows.net')]"
+          }
+        }
+      }
+    },
+    {
+      "type": "Microsoft.Compute/virtualMachines/extensions",
+      "name": "[concat(parameters('spVMName'),'/ConfigureSPServer')]",
+      "apiVersion": "2015-06-15",
+      "dependsOn": [
+        "[concat('Microsoft.Compute/virtualMachines/', parameters('spVMName'))]"
+      ],
+      "location": "[parameters('location')]",
+      "properties": {
+        "publisher": "Microsoft.Powershell",
+        "type": "DSC",
+        "typeHandlerVersion": "2.6",
+        "settings": {
+          "ConfigurationFunction": "[parameters('spConfigurationFunction')]",
+          "Properties": {
+            "DomainName": "[parameters('domainName')]",
+            "AdminCreds": {
+              "UserName": "[parameters('adminUserName')]",
+              "Password": "PrivateSettingsRef:AdminPassword"
+            }
+          }
+        },
+        "protectedSettings": {
+          "Items": {
+            "AdminPassword": "[parameters('adminPassword')]"
           }
         }
       }

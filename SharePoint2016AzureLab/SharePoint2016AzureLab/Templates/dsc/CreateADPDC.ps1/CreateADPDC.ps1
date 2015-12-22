@@ -1,7 +1,7 @@
-﻿configuration CreateADPDC 
-{ 
-   param 
-   ( 
+﻿configuration CreateADPDC
+{
+   param
+   (
         [Parameter(Mandatory)]
         [String]$DomainName,
 
@@ -10,16 +10,16 @@
 
         [Int]$RetryCount=20,
         [Int]$RetryIntervalSec=30
-    ) 
-    
-    Import-DscResource -ModuleName xActiveDirectory,xDisk, xNetworking, cDisk
+    )
+
+    Import-DscResource -ModuleName xActiveDirectory,xDisk, xNetworking, cDisk,xAdcsDeployment
     [System.Management.Automation.PSCredential ]$DomainCreds = New-Object System.Management.Automation.PSCredential ("${DomainName}\$($Admincreds.UserName)", $Admincreds.Password)
 
     Node localhost
     {
-	WindowsFeature DNS 
-        { 
-            Ensure = "Present" 
+	WindowsFeature DNS
+        {
+            Ensure = "Present"
             Name = "DNS"
         }
 	WindowsFeature DnsTools
@@ -28,9 +28,9 @@
 	   Name = "RSAT-Dns-Server"
 	   DependsOn = "[WindowsFeature]DNS"
 	}
-        xDnsServerAddress DnsServerAddress 
-        { 
-            Address        = '127.0.0.1' 
+        xDnsServerAddress DnsServerAddress
+        {
+            Address        = '127.0.0.1'
             InterfaceAlias = 'Ethernet'
             AddressFamily  = 'IPv4'
 	    DependsOn = "[WindowsFeature]DNS"
@@ -47,13 +47,13 @@
             DriveLetter = "F"
 	    DependsOn="[xWaitForDisk]Disk2"
         }
-        WindowsFeature ADDSInstall 
-        { 
-            Ensure = "Present" 
+        WindowsFeature ADDSInstall
+        {
+            Ensure = "Present"
             Name = "AD-Domain-Services"
 	    DependsOn = "[cDiskNoRestart]ADDataDisk"
-	}  
-        xADDomain FirstDS 
+	}
+        xADDomain FirstDS
         {
             DomainName = $DomainName
             DomainAdministratorCredential = $DomainCreds
@@ -61,12 +61,45 @@
             DatabasePath = "F:\NTDS"
             LogPath = "F:\NTDS"
             SysvolPath = "F:\SYSVOL"
-	    DependsOn="[WindowsFeature]ADDSInstall" 
-        } 
-        LocalConfigurationManager 
+	    DependsOn="[WindowsFeature]ADDSInstall"
+        }
+		WindowsFeature RSAT-ADDS
+		{
+			Ensure = "Present"
+            Name = "RSAT-ADDS"
+		DependsOn="[WindowsFeature]ADDSInstall"
+		}
+
+    	WindowsFeature ADCS-Cert-Authority
+        {
+               Ensure = 'Present'
+               Name = 'ADCS-Cert-Authority'
+        }
+        xADCSCertificationAuthority ADCS
+        {
+            Ensure = 'Present'
+            Credential = $Admincreds
+            CAType = 'EnterpriseRootCA'
+            DependsOn = '[WindowsFeature]ADCS-Cert-Authority'
+        }
+        WindowsFeature ADCS-Web-Enrollment
+        {
+            Ensure = 'Present'
+            Name = 'ADCS-Web-Enrollment'
+            DependsOn = '[WindowsFeature]ADCS-Cert-Authority'
+        }
+        xADCSWebEnrollment CertSrv
+        {
+            Ensure = 'Present'
+            Name = 'CertSrv'
+            Credential = $Admincreds
+            DependsOn = '[WindowsFeature]ADCS-Web-Enrollment','[xADCSCertificationAuthority]ADCS'
+        }
+
+		LocalConfigurationManager
         {
             ConfigurationMode = 'ApplyOnly'
             RebootNodeIfNeeded = $true
         }
    }
-} 
+}

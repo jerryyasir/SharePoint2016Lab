@@ -13,26 +13,6 @@ configuration ConfigureSharePointServer
         [Parameter(Mandatory)]
         [System.Management.Automation.PSCredential]$Admincreds,
 
-        [Parameter(Mandatory)]
-        [System.Management.Automation.PSCredential]$SharePointSetupUserAccountcreds,
-
-        [Parameter(Mandatory)]
-        [System.Management.Automation.PSCredential]$SharePointFarmAccountcreds,
-
-        [Parameter(Mandatory)]
-        [System.Management.Automation.PSCredential]$SharePointFarmPassphrasecreds,
-        
-        [parameter(Mandatory)]
-        [String]$DatabaseName,
-
-        [parameter(Mandatory)]
-        [String]$AdministrationContentDatabaseName,
-
-        [parameter(Mandatory)]
-        [String]$DatabaseServer,
-        
-        [parameter(Mandatory)]
-        [String]$Configuration,
 
         [Int]$RetryCount=30,
         [Int]$RetryIntervalSec=60
@@ -42,25 +22,14 @@ configuration ConfigureSharePointServer
 
         [System.Management.Automation.PSCredential ]$DomainCreds = New-Object System.Management.Automation.PSCredential ("${DomainName}\$($Admincreds.UserName)", $Admincreds.Password)
         [System.Management.Automation.PSCredential ]$FarmCreds = New-Object System.Management.Automation.PSCredential ("${DomainName}\$($SharePointFarmAccountcreds.UserName)", $SharePointFarmAccountcreds.Password)
-        [System.Management.Automation.PSCredential ]$SPsetupCreds = New-Object System.Management.Automation.PSCredential ("${DomainName}\$($SharePointSetupUserAccountcreds.UserName)", $SharePointSetupUserAccountcreds.Password)
-
-        # Install Sharepoint Module
-        $ModuleFilePath="$PSScriptRoot\SharePointServer.psm1"
-        $ModuleName = "SharepointServer"
-        $PSModulePath = $Env:PSModulePath -split ";" | Select -Index 1
-        $ModuleFolder = "$PSModulePath\$ModuleName"
-        if (-not (Test-Path  $ModuleFolder -PathType Container)) {
-            mkdir $ModuleFolder
-        }
-        Copy-Item $ModuleFilePath $ModuleFolder -Force
 
         Enable-CredSSPNTLM -DomainName $DomainName
 
-        Import-DscResource -ModuleName xComputerManagement, xActiveDirectory, xDisk, cConfigureSharepoint, xCredSSP, cDisk,xNetworking
-    
+        Import-DscResource -ModuleName xComputerManagement, xActiveDirectory, xDisk, xCredSSP, cDisk,xNetworking
+
         Node localhost
         {
-            
+
             xWaitforDisk Disk2
             {
                 DiskNumber = 2
@@ -73,15 +42,15 @@ configuration ConfigureSharePointServer
                 DriveLetter = "F"
                 DependsOn = "[xWaitforDisk]Disk2"
             }
-            xCredSSP Server 
-            { 
-                Ensure = "Present" 
-                Role = "Server" 
-            } 
-            xCredSSP Client 
-            { 
-                Ensure = "Present" 
-                Role = "Client" 
+            xCredSSP Server
+            {
+                Ensure = "Present"
+                Role = "Server"
+            }
+            xCredSSP Client
+            {
+                Ensure = "Present"
+                Role = "Client"
                 DelegateComputers = "*.$Domain", "localhost"
             }
             WindowsFeature ADPS
@@ -91,13 +60,13 @@ configuration ConfigureSharePointServer
                 DependsOn = "[cDiskNoRestart]SPDataDisk"
             }
 
-            xWaitForADDomain DscForestWait 
-            { 
-                DomainName = $DomainName 
+            xWaitForADDomain DscForestWait
+            {
+                DomainName = $DomainName
                 DomainUserCredential= $DomainCreds
-                RetryCount = $RetryCount 
-                RetryIntervalSec = $RetryIntervalSec 
-                DependsOn = "[WindowsFeature]ADPS"      
+                RetryCount = $RetryCount
+                RetryIntervalSec = $RetryIntervalSec
+                DependsOn = "[WindowsFeature]ADPS"
             }
 
             xComputer DomainJoin
@@ -105,72 +74,24 @@ configuration ConfigureSharePointServer
                 Name = $env:COMPUTERNAME
                 DomainName = $DomainName
                 Credential = $DomainCreds
-                DependsOn = "[xWaitForADDomain]DscForestWait" 
+                DependsOn = "[xWaitForADDomain]DscForestWait"
             }
 
-
-            xADUser CreateSetupAccount
-            {
-                DomainAdministratorCredential = $DomainCreds
-                DomainName = $DomainName
-                UserName = $SharePointSetupUserAccountcreds.UserName
-                Password =$SharePointSetupUserAccountcreds
-                Ensure = "Present"
-                DependsOn = "[WindowsFeature]ADPS", "[xComputer]DomainJoin"
-            }
-
-            Group AddSetupUserAccountToLocalAdminsGroup
-            {
-                GroupName = "Administrators"
-                Credential = $DomainCreds
-                MembersToInclude = "${DomainName}\$($SharePointSetupUserAccountcreds.UserName)"
-                Ensure="Present"
-                DependsOn = "[xAdUser]CreateSetupAccount"
-            }
-
-            xADUser CreateFarmAccount
-            {
-                DomainAdministratorCredential = $DomainCreds
-                DomainName = $DomainName
-                UserName = $SharePointFarmAccountcreds.UserName
-                Password =$FarmCreds
-                Ensure = "Present"
-                DependsOn = "[WindowsFeature]ADPS", "[xComputer]DomainJoin"
-            }
-        
-            cConfigureSharepoint ConfigureSharepointServer
-            {
-                DomainName=$DomainName
-                DomainAdministratorCredential=$DomainCreds
-                DatabaseName=$DatabaseName
-                AdministrationContentDatabaseName=$AdministrationContentDatabaseName
-                DatabaseServer=$DatabaseServer
-                SetupUserAccountCredential=$SPsetupCreds
-                FarmAccountCredential=$SharePointFarmAccountcreds
-                FarmPassphrase=$SharePointFarmPassphrasecreds
-                Configuration=$Configuration
-                DependsOn = "[xADUser]CreateFarmAccount","[xADUser]CreateSetupAccount", "[Group]AddSetupUserAccountToLocalAdminsGroup"
-            }
-            LocalConfigurationManager 
-            {
-                ConfigurationMode = 'ApplyOnly'
-                RebootNodeIfNeeded = $true 
-            }
         }
-   
+
 }
 
 function Enable-CredSSPNTLM
-{ 
+{
     param(
         [Parameter(Mandatory=$true)]
         [string]$DomainName
     )
-    
+
     # This is needed for the case where NTLM authentication is used
 
     Write-Verbose 'STARTED:Setting up CredSSP for NTLM'
-   
+
     Enable-WSManCredSSP -Role client -DelegateComputer localhost, *.$DomainName -Force -ErrorAction SilentlyContinue
     Enable-WSManCredSSP -Role server -Force -ErrorAction SilentlyContinue
 
