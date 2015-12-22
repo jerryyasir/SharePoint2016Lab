@@ -42,7 +42,7 @@
     "value": "spfarmazurelab2016"
   },
   "adVMSize": {
-    "value": "Standard_D1"
+    "value": "Standard_D2"
   },
   "sqlVMSize": {
     "value": "Standard_D3"

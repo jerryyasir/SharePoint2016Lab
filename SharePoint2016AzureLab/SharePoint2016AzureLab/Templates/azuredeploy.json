@@ -212,7 +212,6 @@
     "baseUrl": {
       "type": "string",
       "metadata": {
-        "artifactsBaseUrl": "",
         "description": "URL to acquire other templates"
       },
       "defaultValue": "https://dscassets.blob.core.windows.net/sharepoint2016azurelab"
@@ -220,7 +219,6 @@
     "AssetLocation": {
       "type": "string",
       "metadata": {
-        "artifactsBaseUrl": "",
         "description": "URL to acquire DSC"
       },
       "defaultValue": "https://dscassets.blob.core.windows.net/sharepoint2016azurelab"
@@ -302,9 +300,6 @@
     }
   },
   "variables": {
-    "configDatabaseName": "01_SharePoint_Config",
-    "administrationContentDatabaseName": "01_AdminContent",
-    "contentDatabaseName": "01_ARMContent",
     "adVMName": "[concat(parameters('sharepointFarmName'),'-ad')]",
     "sqlVMName": "[concat(parameters('sharepointFarmName'),'-sql')]",
     "spVMName": "[concat(parameters('sharepointFarmName'),'-sp')]",
@@ -748,128 +743,6 @@
             ]
           }
         }
-      }
-    },
-    //"ProvisioningSQLServer",
-    {
-      "name": "ProvisioningSQLServer",
-      "type": "Microsoft.Resources/deployments",
-      "apiVersion": "2015-01-01",
-      "dependsOn": [
-        "Microsoft.Resources/deployments/UpdatingDNStoPrimaryADVM"
-      ],
-      "properties": {
-        "mode": "Incremental",
-        "templateLink": {
-          "uri": "[variables('ProvisioningSQLUrl')]",
-          "contentVersion": "1.0.0.0"
-        },
-        "parameters": {
-          "location": {
-            "value": "[parameters('location')]"
-          },
-          "sqlVMName": {
-            "value": "[variables('sqlVMName')]"
-          },
-          "sqlVMSize": {
-            "value": "[parameters('sqlVMSize')]"
-          },
-          "sqlAvailabilitySetName": {
-            "value": "[variables('sqlAvailabilitySetName')]"
-          },
-          "adminUsername": {
-            "value": "[parameters('adminUsername')]"
-          },
-          "adminPassword": {
-            "value": "[parameters('adminPassword')]"
-          },
-          "storageAccountName": {
-            "value": "[parameters('storageAccountName')]"
-          },
-          "sqlDataDisk": {
-            "value": "[variables('sqlDataDisk')]"
-          },
-          "sqlLogDisk": {
-            "value": "[variables('sqlLogDisk')]"
-          },
-          "sqlNicName": {
-            "value": "[variables('sqlNicName')]"
-          },
-          "sqlModulesURL": {
-            "value": "[variables('sqlModulesURL')]"
-          },
-          "sqlConfigurationFunction": {
-            "value": "[variables('sqlConfigurationFunction')]"
-          },
-          "domainName": {
-            "value": "[parameters('domainName')]"
-          },
-          "sqlServerServiceAccountUserName": {
-            "value": "[parameters('sqlServerServiceAccountUserName')]"
-          },
-          "sharePointSetupUserAccountUserName": {
-            "value": "[parameters('sharePointSetupUserAccountUserName')]"
-          },
-          "sqlServerServiceAccountPassword": {
-            "value": "[parameters('sqlServerServiceAccountPassword')]"
-          },
-          "sharePointSetupUserAccountPassword": {
-            "value": "[parameters('sharePointSetupUserAccountPassword')]"
-          }
-        }
-      }
-    },
-    //"ProvisioningSharepointFarm",
-    {
-      "name": "ProvisioningSharepointFarm",
-      "type": "Microsoft.Resources/deployments",
-      "apiVersion": "2015-01-01",
-      "dependsOn": [
-        "Microsoft.Resources/deployments/ProvisioningSQLServer"
-      ],
-      "properties": {
-        "mode": "Incremental",
-        "templateLink": {
-          "uri": "[variables('provisioningSharepointUrl')]",
-          "contentVersion": "1.0.0.0"
-        },
-        "parameters": {
-          "spVMName": {
-            "value": "[variables('spVMName')]"
-          },
-          "RoleVMCount": {
-            "value": "[parameters('RoleVMCount')]"
-
-          },
-            "location": {
-              "value": "[parameters('location')]"
-            },
-            "spVMSize": {
-              "value": "[parameters('spVMSize')]"
-            },
-            "spAvailabilitySetName": {
-              "value": "[variables('spAvailabilitySetName')]"
-            },
-            "spNicName": {
-              "value": "[variables('spNicName')]"
-            },
-            "spDataDisk": {
-              "value": "[variables('spDataDisk')]"
-            },
-            "storageAccountName": {
-              "value": "[parameters('storageAccountName')]"
-            },
-            "adminUsername": {
-              "value": "[parameters('adminUsername')]"
-            },
-            "adminPassword": {
-              "value": "[parameters('adminPassword')]"
-            },
-            "domainName": {
-              "value": "[parameters('domainName')]"
-            }
-
-          }
       }
     }
   ],

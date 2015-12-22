@@ -12,7 +12,7 @@
         [Int]$RetryIntervalSec=30
     )
 
-    Import-DscResource -ModuleName xActiveDirectory,xDisk, xNetworking, cDisk,xAdcsDeployment
+    Import-DscResource -ModuleName xActiveDirectory,xDisk, xNetworking, cDisk
     [System.Management.Automation.PSCredential ]$DomainCreds = New-Object System.Management.Automation.PSCredential ("${DomainName}\$($Admincreds.UserName)", $Admincreds.Password)
 
     Node localhost
@@ -66,37 +66,10 @@
 		WindowsFeature RSAT-ADDS
 		{
 			Ensure = "Present"
-            Name = "RSAT-ADDS"
-		DependsOn="[WindowsFeature]ADDSInstall"
+				Name = "RSAT-ADDS"
+		DependsOn="[xADDomain]FirstDS"
 		}
-
-    	WindowsFeature ADCS-Cert-Authority
-        {
-               Ensure = 'Present'
-               Name = 'ADCS-Cert-Authority'
-        }
-        xADCSCertificationAuthority ADCS
-        {
-            Ensure = 'Present'
-            Credential = $Admincreds
-            CAType = 'EnterpriseRootCA'
-            DependsOn = '[WindowsFeature]ADCS-Cert-Authority'
-        }
-        WindowsFeature ADCS-Web-Enrollment
-        {
-            Ensure = 'Present'
-            Name = 'ADCS-Web-Enrollment'
-            DependsOn = '[WindowsFeature]ADCS-Cert-Authority'
-        }
-        xADCSWebEnrollment CertSrv
-        {
-            Ensure = 'Present'
-            Name = 'CertSrv'
-            Credential = $Admincreds
-            DependsOn = '[WindowsFeature]ADCS-Web-Enrollment','[xADCSCertificationAuthority]ADCS'
-        }
-
-		LocalConfigurationManager
+        LocalConfigurationManager
         {
             ConfigurationMode = 'ApplyOnly'
             RebootNodeIfNeeded = $true
