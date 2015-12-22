@@ -215,7 +215,7 @@
         "artifactsBaseUrl": "",
         "description": "URL to acquire other templates"
       },
-      "defaultValue": "https://dscassets.blob.core.windows.net/sharepoint2016azurelab/"
+      "defaultValue": "https://dscassets.blob.core.windows.net/sharepoint2016azurelab"
     },
     "AssetLocation": {
       "type": "string",
@@ -223,7 +223,7 @@
         "artifactsBaseUrl": "",
         "description": "URL to acquire DSC"
       },
-      "defaultValue": "https://dscassets.blob.core.windows.net/sharepoint2016azurelab/"
+      "defaultValue": "https://dscassets.blob.core.windows.net/sharepoint2016azurelab"
     },
     "spPublicIPNewOrExisting": {
       "type": "string",
