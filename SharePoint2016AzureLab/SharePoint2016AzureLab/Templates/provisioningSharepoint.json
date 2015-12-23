@@ -32,6 +32,9 @@
     "domainName": {
       "type": "string"
     },
+    "spConfigurationFunction": {
+      "type": "string"
+    },
     "RoleVMCount": {
       "type": "int"
     }
@@ -40,12 +43,8 @@
     {
       "apiVersion": "2015-06-15",
       "type": "Microsoft.Compute/virtualMachines",
-      "name": "[concat(parameters('spVMName'), copyindex())]",
+      "name": "[concat(parameters('spVMName'))]",
       "location": "[parameters('location')]",
-      "copy": {
-        "name": "spvirtualMachineLoop",
-        "count": "[parameters('RoleVMCount')]"
-      },
       "properties": {
         "hardwareProfile": {
           "vmSize": "[parameters('spVMSize')]"
@@ -54,7 +53,7 @@
           "id": "[resourceId('Microsoft.Compute/availabilitySets', parameters('spAvailabilitySetName'))]"
         },
         "osProfile": {
-          "computerName": "[concat(parameters('spVMName'), copyindex())]",
+          "computerName": "[concat(parameters('spVMName'))]",
           "adminUsername": "[parameters('adminUsername')]",
           "adminPassword": "[parameters('adminPassword')]"
         },
@@ -68,7 +67,7 @@
           "osDisk": {
             "name": "osdisk",
             "vhd": {
-              "uri": "[concat('http://',parameters('storageAccountName'),'.blob.core.windows.net/vhds/',parameters('spVMName'),copyindex(),'-osdisk.vhd')]"
+              "uri": "[concat('http://',parameters('storageAccountName'),'.blob.core.windows.net/vhds/',parameters('spVMName'),'-osdisk.vhd')]"
             },
             "caching": "ReadWrite",
             "createOption": "FromImage"
@@ -76,9 +75,9 @@
           "dataDisks": [
             {
               "vhd": {
-                "uri": "[concat('http://',parameters('storageAccountName'),'.blob.core.windows.net/vhds/',parameters('spVMName'),'-', parameters('spDataDisk'),copyindex(),'-1.vhd')]"
+                "uri": "[concat('http://',parameters('storageAccountName'),'.blob.core.windows.net/vhds/',parameters('spVMName'),'-',parameters('spDataDisk'),'-1.vhd')]"
               },
-              "name": "[concat(parameters('spVMName'),copyindex(),'-data-disk1')]",
+              "name": "[concat(parameters('spVMName'),'-data-disk1')]",
               "createOption": "empty",
               "caching": "None",
               "diskSizeGB": 1000,
@@ -89,7 +88,7 @@
         "networkProfile": {
           "networkInterfaces": [
             {
-              "id": "[resourceId('Microsoft.Network/networkInterfaces',concat(parameters('spNicName'), copyindex(),'-nic'))]"
+              "id": "[resourceId('Microsoft.Network/networkInterfaces',parameters('spNicName'))]"
             }
           ]
         },

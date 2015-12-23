@@ -38,6 +38,7 @@
     <None Include="Templates\createUiDefinition.json" />
     <None Include="Templates\creatingNICS.json" />
     <None Include="Templates\creatingPublicIPs.json" />
+    <None Include="Templates\dsc\ConfigureADDSCA.ps1\ConfigureADDSCA.ps1" />
     <None Include="Templates\dsc\ConfigureSharePointServer.ps1.zip" />
     <None Include="Templates\dsc\ConfigureSharePointServer.ps1\cConfigureSharepoint\cConfigureSharepoint.psd1" />
     <None Include="Templates\dsc\ConfigureSharePointServer.ps1\cConfigureSharepoint\DSCResources\SAMPLE_cConfigureSharepoint\SAMPLE_cConfigureSharepoint.psm1" />

@@ -64,11 +64,19 @@
 	    DependsOn="[WindowsFeature]ADDSInstall"
         }
 		WindowsFeature RSAT-ADDS
-		{
-			Ensure = "Present"
-				Name = "RSAT-ADDS"
-		DependsOn="[xADDomain]FirstDS"
-		}
+        {
+            Name = "RSAT-ADDS"
+            Ensure = "Present"
+            IncludeAllSubFeature=$true
+			DependsOn="[WindowsFeature]ADDSInstall"
+        }
+        WindowsFeature AD-Certificate
+        {
+            Name = "AD-Certificate"
+            Ensure = "Present"
+            IncludeAllSubFeature=$true
+			DependsOn="[WindowsFeature]ADDSInstall"
+        }
         LocalConfigurationManager
         {
             ConfigurationMode = 'ApplyOnly'

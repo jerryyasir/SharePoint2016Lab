@@ -371,7 +371,9 @@
       }
     ],
     "adModulesURL": "[concat(parameters('AssetLocation'),'/CreateADPDC.ps1.zip')]",
+    "adModuleFeaturesURL": "[concat(parameters('AssetLocation'),'/ConfigureADDSCA.ps1.zip')]",
     "adConfigurationFunction": "CreateADPDC.ps1\\CreateADPDC",
+    "adfeatureFunction": "ConfigureADDSCA.ps1\\ConfigureADDSTools",
     "sqlModulesURL": "[concat(parameters('AssetLocation'),'/ConfigureSqlServer.ps1.zip')]",
     "sqlConfigurationFunction": "ConfigureSqlServer.ps1\\ConfigureSqlServer",
     "spModulesURL": "[concat(parameters('AssetLocation'),'/ConfigureSharePointServer.ps1.zip')]",
@@ -706,6 +708,12 @@
           },
           "domainName": {
             "value": "[parameters('domainName')]"
+          },
+          "adFeatureModulesURL": {
+            "value": "[variables('adModuleFeaturesURL')]"
+          },
+          "adFeatureFunction": {
+            "value": "[variables('adConfigurationFunction')]"
           }
         }
       }
@@ -742,6 +750,62 @@
               "[parameters('adNicIPAddress')]"
             ]
           }
+        }
+      }
+    },
+    //"ProvisioningSharepointFarm",
+    {
+      "name": "ProvisioningSharepointFarm",
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2015-01-01",
+      "dependsOn": [
+        "Microsoft.Resources/deployments/ProvisioningADDomainController"
+      ],
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[variables('provisioningSharepointUrl')]",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "spVMName": {
+            "value": "[variables('spVMName')]"
+          },
+          "RoleVMCount": {
+            "value": "[parameters('RoleVMCount')]"
+
+          },
+          "location": {
+            "value": "[parameters('location')]"
+          },
+          "spVMSize": {
+            "value": "[parameters('spVMSize')]"
+          },
+          "spAvailabilitySetName": {
+            "value": "[variables('spAvailabilitySetName')]"
+          },
+          "spNicName": {
+            "value": "[variables('spNicName')]"
+          },
+          "spDataDisk": {
+            "value": "[variables('spDataDisk')]"
+          },
+          "storageAccountName": {
+            "value": "[parameters('storageAccountName')]"
+          },
+          "adminUsername": {
+            "value": "[parameters('adminUsername')]"
+          },
+          "adminPassword": {
+            "value": "[parameters('adminPassword')]"
+          },
+          "domainName": {
+            "value": "[parameters('domainName')]"
+          },
+          "spConfigurationFunction": {
+            "value": "[variables('spConfigurationFunction')]"
+          }
+
         }
       }
     }
