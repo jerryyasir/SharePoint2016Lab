@@ -804,6 +804,9 @@
           },
           "spConfigurationFunction": {
             "value": "[variables('spConfigurationFunction')]"
+          },
+          "spModulesURL": {
+            "value": "[variables('spModulesURL')]"
           }
 
         }

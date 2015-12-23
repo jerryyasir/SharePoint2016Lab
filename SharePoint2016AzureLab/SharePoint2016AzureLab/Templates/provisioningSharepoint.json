@@ -35,6 +35,9 @@
     "spConfigurationFunction": {
       "type": "string"
     },
+    "spModulesURL": {
+      "type": "string"
+    },
     "RoleVMCount": {
       "type": "int"
     }
@@ -111,8 +114,10 @@
       "properties": {
         "publisher": "Microsoft.Powershell",
         "type": "DSC",
-        "typeHandlerVersion": "2.6",
+        "typeHandlerVersion": "2.11",
+        "autoUpgradeMinorVersion": true,
         "settings": {
+          "ModulesUrl": "[parameters('spModulesURL')]",
           "ConfigurationFunction": "[parameters('spConfigurationFunction')]",
           "Properties": {
             "DomainName": "[parameters('domainName')]",

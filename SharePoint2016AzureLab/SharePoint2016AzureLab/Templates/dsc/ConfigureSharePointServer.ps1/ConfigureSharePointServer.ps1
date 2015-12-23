@@ -21,11 +21,9 @@ configuration ConfigureSharePointServer
         Write-Verbose "AzureExtensionHandler loaded continuing with configuration"
 
         [System.Management.Automation.PSCredential ]$DomainCreds = New-Object System.Management.Automation.PSCredential ("${DomainName}\$($Admincreds.UserName)", $Admincreds.Password)
-        [System.Management.Automation.PSCredential ]$FarmCreds = New-Object System.Management.Automation.PSCredential ("${DomainName}\$($SharePointFarmAccountcreds.UserName)", $SharePointFarmAccountcreds.Password)
 
         Enable-CredSSPNTLM -DomainName $DomainName
-
-        Import-DscResource -ModuleName xComputerManagement, xActiveDirectory, xDisk, xCredSSP, cDisk,xNetworking
+	    Import-DscResource -ModuleName xComputerManagement, xActiveDirectory, xDisk, xCredSSP, cDisk,xNetworking
 
         Node localhost
         {
@@ -77,6 +75,11 @@ configuration ConfigureSharePointServer
                 DependsOn = "[xWaitForADDomain]DscForestWait"
             }
 
+            LocalConfigurationManager
+            {
+                ConfigurationMode = 'ApplyOnly'
+                RebootNodeIfNeeded = $true
+            }
         }
 
 }

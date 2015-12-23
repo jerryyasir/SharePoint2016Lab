@@ -40,14 +40,10 @@
     <None Include="Templates\creatingPublicIPs.json" />
     <None Include="Templates\dsc\ConfigureADDSCA.ps1\ConfigureADDSCA.ps1" />
     <None Include="Templates\dsc\ConfigureSharePointServer.ps1.zip" />
-    <None Include="Templates\dsc\ConfigureSharePointServer.ps1\cConfigureSharepoint\cConfigureSharepoint.psd1" />
-    <None Include="Templates\dsc\ConfigureSharePointServer.ps1\cConfigureSharepoint\DSCResources\SAMPLE_cConfigureSharepoint\SAMPLE_cConfigureSharepoint.psm1" />
-    <None Include="Templates\dsc\ConfigureSharePointServer.ps1\cConfigureSharepoint\DSCResources\SAMPLE_cConfigureSharepoint\SAMPLE_cConfigureSharepoint.schema.mof" />
     <None Include="Templates\dsc\ConfigureSharePointServer.ps1\cDisk\cDisk.psd1" />
     <None Include="Templates\dsc\ConfigureSharePointServer.ps1\cDisk\DSCResources\SAMPLE_cDiskNoRestart\SAMPLE_cDiskNoRestart.psm1" />
     <None Include="Templates\dsc\ConfigureSharePointServer.ps1\cDisk\DSCResources\SAMPLE_cDiskNoRestart\SAMPLE_cDiskNoRestart.schema.mof" />
     <None Include="Templates\dsc\ConfigureSharePointServer.ps1\ConfigureSharePointServer.ps1" />
-    <None Include="Templates\dsc\ConfigureSharePointServer.ps1\SharePointServer.psm1" />
     <None Include="Templates\dsc\ConfigureSharePointServer.ps1\xActiveDirectory\DSCResources\MSFT_xADDomainController\MSFT_xADDomainController.psm1" />
     <None Include="Templates\dsc\ConfigureSharePointServer.ps1\xActiveDirectory\DSCResources\MSFT_xADDomainController\MSFT_xADDomainController.schema.mof" />
     <None Include="Templates\dsc\ConfigureSharePointServer.ps1\xActiveDirectory\DSCResources\MSFT_xADDomainTrust\MSFT_xADDomainTrust.psm1" />
